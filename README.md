@@ -36,10 +36,10 @@ Based on only two quantifiers, microstate entropy and recurrence threshold, our 
 
 ## Downloading the data:
 - Download the <code>ECGDataDenoised.zip</code> from https://figshare.com/collections/ChapmanECG/4560497/2;
-- Extract the <code>.zip</code> file to obtain the folder <code>ECGDataDenoised.</code> which contains the whole dataset in <code>csv</code> form; 
-- Download <code>filename.dat</code> from this repository which contains the list of names of each file from each subject;
-- Download <code>diagnostics.dat</code> from this repository which contains the list the ECG rhythms;
-- Download <code>block_list.dat</code> from this repository which contains the list corrupted signals that should be avoided;
+- Extract the <code>.zip</code> file to obtain the folder <code>ECGDataDenoised/</code> which contains the whole dataset in <code>csv</code> form; 
+- Download <code>filename.dat</code> from this repository, which contains the list of names of each file from each subject;
+- Download <code>diagnostics.dat</code> from this repository, which contains the list the ECG rhythms;
+- Download <code>block_list.dat</code> from this repository, which contains the list corrupted signals that should be avoided;
 
 
 
@@ -47,5 +47,8 @@ Based on only two quantifiers, microstate entropy and recurrence threshold, our 
 
 Keras is a high-level deep learning framework designed for rapid experimentation and prototyping of neural networks. It offers an intuitive interface for building, training, and deploying models, with modular components known as layers that can be easily configured to create complex architectures. Keras seamlessly integrates with popular deep learning backends like TensorFlow, enabling efficient computation on both CPU and GPU. Its user-friendly API abstracts away low-level implementation details, allowing researchers and practitioners to focus on model design and experimentation
 
+- <code>numpy</code>;
+- <code>csv</code>;
+- <code>sys</code>;
 
 
