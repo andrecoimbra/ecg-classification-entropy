@@ -45,21 +45,32 @@ Based on only two quantifiers, microstate entropy and recurrence threshold, our 
 - Download <code>filename.dat</code> from this repository, which contains the list of names of each file from each subject;
 - Download <code>diagnostics.dat</code> from this repository, which contains the list the ECG rhythms;
 - Download <code>block_list.dat</code> from this repository, which contains the list corrupted signals that should be avoided;
+*Please note that when utilizing this step, it is important to cite the article  <code>DOI:10.1038/s41597-020-0386-x</code> for proper acknowledgment.*
+
 
 ## Evaluating the Maximum Entropy of Microstates
 - The file <code>evaluate_entropy_ECG.py</code> available at this repository depicts the code to read the dataset and evaluate the Maximum Entropy of Microstates for each subject;
 - The time required to calculate the maximum entropy of microstates depends on the number of microstates extracted from the series;
-- In general, the entropy calculation is quick, but when considering a data set with 10,000 subjects containing 12 series of 5,000 points per subject, it can take a relatively long time, taking a few seconds per subject. Therefore, to overcome this problem, it is recommended to use parallel computing in which the entropy of each subject is calculated independently;
+- In general, the entropy calculation is quick, but when considering a data set with 10,000 subjects containing 12 series of 5,000 points per subject, it can take a relatively long time, taking a few seconds per subject. Therefore, to overcome this problem, it is recommended to use parallel computing in CPU or GPU;
 - The code extracts 1,000 microstates from each time series, with N = 3 which gives a total of Q = 512 different recurrence microstates, and generate two <code>.npy</code> files, <code>Data_S.npy</code> containing the maximum entropy value and the optimized threshold value for each subject, and <code>Data_L.npy</code> the list of the labels varying from 0 (SR) to 10 (SAAWR), following the order of the table above;
+*Please note that when utilizing this step, it is important to cite the article  <code>DOI:10.1063/1.5125921</code> for proper acknowledgment.*
 
-## Generating an ANN to classify the signals:
-- The file <code>neural_network_multi.py.py</code> available at this repository depicts the code to read the <code>.npy</code> files and to create the ANN to classify the ECG signals;<br />
-  The code is separated in X steps 
-  1. Read <code>Data_S.npy</code> and <code>Data_L.npy</code> which contain the features and labels of the dataset;
-  2. b
-  3. c
-  4. d
-  5. e
+## Instructions for running the code:
+- The file <code>multi_class_reduce.py.py</code> available at this repository depicts the code to read the <code>.npy</code> files and classify the ECG signals;<br />
+The code is separated in 6 steps:
+1. Read <code>Data_S.npy</code> and <code>Data_L.npy</code> which contain the features and labels of the dataset;
+2. Select the groups of intereset, e.g., the rhytims for the reduced dataset which thakes into account subject with the rhythms 0,1,2, and 3;
+3. Shuffling the dataset, to avoid any bias in the disposition of patients;
+4. Define the classificator and its properties;
+5. Generate the K-fold (with K=10) to select the train and test dataset to evaluate the classification; 
+6. The code prints in the screen the mean value of all K realizations;
+
+In this work, we tested 5 different classifier, which are:
+- KNN: K-Nearest Neighbors (1);
+- DTree: Decision Tree (2);
+- RFM: Random Forest (3);
+- SVM: Support Vector Machine (4);
+- ANN: Artificial Neural Network (5);
 
 
 
