@@ -33,6 +33,11 @@ Based on only two quantifiers, microstate entropy and recurrence threshold, our 
 | Sinus Atrium to Atrial Wandering Rhythm | SAAWR        | 7 (0.07)      |
 | **Total**                               |              | **10,646 (100)** |
 
+## Python libraries:
+
+- <code>NumPy</code>: Facilitates efficient handling and manipulation of large multi-dimensional arrays and provides a wide range of mathematical functions for numerical computations in Python.;
+- <code>csv</code>: To read the <code>.csv</code> files;
+- <code>Keras</code>: is a high-level deep learning framework designed for rapid experimentation and prototyping of neural networks. It offers an intuitive interface for building, training, and deploying models, with modular components known as layers that can be easily configured to create complex architectures. Keras seamlessly integrates with popular deep learning backends like TensorFlow, enabling efficient computation on both CPU and GPU. Its user-friendly API abstracts away low-level implementation details, allowing researchers and practitioners to focus on model design and experimentation;
 
 ## Downloading the data:
 - Download the <code>ECGDataDenoised.zip</code> from https://figshare.com/collections/ChapmanECG/4560497/2;
@@ -41,14 +46,21 @@ Based on only two quantifiers, microstate entropy and recurrence threshold, our 
 - Download <code>diagnostics.dat</code> from this repository, which contains the list the ECG rhythms;
 - Download <code>block_list.dat</code> from this repository, which contains the list corrupted signals that should be avoided;
 
+## Evaluating the Maximum Entropy of Microstates
+- The file <code>evaluate_entropy_ECG.py</code> available at this repository depicts the code to read the dataset and evaluate the Maximum Entropy of Microstates for each subject;
+- The time required to calculate the maximum entropy of microstates depends on the number of microstates extracted from the series;
+- In general, the entropy calculation is quick, but when considering a data set with 10,000 subjects containing 12 series of 5,000 points per subject, it can take a relatively long time, taking a few seconds per subject. Therefore, to overcome this problem, it is recommended to use parallel computing in which the entropy of each subject is calculated independently;
+- The code extracts 1,000 microstates from each time series, with N = 3 which gives a total of Q = 512 different recurrence microstates, and generate two <code>.npy</code> files, <code>Data_S.npy</code> containing the maximum entropy value and the optimized threshold value for each subject, and <code>Data_L.npy</code> the list of the labels varying from 0 (SR) to 10 (SAAWR), following the order of the table above;
+
+## Generating an ANN to classify the signals:
+- The file <code>neural_network_multi.py.py</code> available at this repository depicts the code to read the <code>.npy</code> files and to create the ANN to classify the ECG signals;<br />
+  The code is separated in X steps 
+  1. Read <code>Data_S.npy</code> and <code>Data_L.npy</code> which contain the features and labels of the dataset;
+  2. b
+  3. c
+  4. d
+  5. e
 
 
-## Python libraries:
-
-Keras is a high-level deep learning framework designed for rapid experimentation and prototyping of neural networks. It offers an intuitive interface for building, training, and deploying models, with modular components known as layers that can be easily configured to create complex architectures. Keras seamlessly integrates with popular deep learning backends like TensorFlow, enabling efficient computation on both CPU and GPU. Its user-friendly API abstracts away low-level implementation details, allowing researchers and practitioners to focus on model design and experimentation
-
-- <code>numpy</code>;
-- <code>csv</code>;
-- <code>sys</code>;
 
 
