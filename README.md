@@ -1,3 +1,5 @@
+# The use of entropy of recurrence microstates and artificial intelligence to detect cardiac arrhythmia in ECG records
+
 This repository provides the code implemented in the use of entropy of recurrence microstates and artificial intelligence to detect cardiac
 arrhythmia in ECG records
 
