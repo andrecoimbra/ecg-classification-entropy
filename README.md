@@ -9,7 +9,7 @@ We introduce a unique application of recurrence-based tools, highlighting the au
 
 Based on only two quantifiers, microstate entropy and recurrence threshold, our results open avenues for future exploration. We emphasize the potential improvement by incorporating additional quantifiers, such as numerical values of recurrence microstate probabilities, to enhance the discernment of patterns by machine learning algorithms.
 
-To ensure proper attribution, it would be greatly appreciated if you could kindly cite our paper DOI:XXXXXX.<br />
+To ensure proper attribution, it would be greatly appreciated if you could kindly cite our paper <code>DOI:XXXXXX</code>.<br />
 Thank you for considering our work!
 
 ## Dataset
