@@ -60,30 +60,47 @@ Thank you for considering our work!
 
 In case you don't want to wait, you can download <code>10000_Data_S.npy</code> and <code>10000_Data_L.npy</code> from this repository, which correspond to the output of the code considering 10,000 recurrence microstates extracted from each subject.
 
-## About the code:
+## About the multiclass code:
 
-- The file <code>multi_class_reduced.py</code> available in this repository contains the code for reading the <code>.npy</code> files and classifying the ECG signals.
+- The file <code>multi_class_reduced.py</code> available in this repository contains the code for reading the <code>.npy</code> files and classifying the ECG signals from the reduced dataset.
 - The code is divided into 6 steps:
   1. Read <code>Data_S.npy</code> and <code>Data_L.npy</code>, which contain the features and labels of the dataset.
-  2. Select the groups of interest, for example, the rhythms for the reduced dataset, which takes into account subjects with rhythms 0, 1, 2, and 3.
+  2. Select the groups of interest, such as the rhythms for the reduced dataset, which includes subjects with rhythms 0, 1, 2, and 3.
   3. Shuffle the dataset to avoid any bias in the disposition of patients.
   4. Define the classifier and its properties.
   5. Generate the K-fold (with K=10) to select the training and test datasets for evaluating the classification.
   6. The code prints the mean value of all K realizations on the screen.
 
-##Instructions for running the code:
-- The command <code>python3 multi_class_reduced.py X</code> runs the code descripted above where X is a number from 0 to 4 which chooses the classifier to be used. If any flag <code>X</code> is gived, the code will automatically select the Artificial Neural Network as a classifier;
-- In the case you want to use the  <code>10000_Data_S.npy</code> and <code>10000_Data_L.npy</code> files, the line #16 should be changed from
-  <code>data_in_S,data_in_L = np.load('Data_S.npy'),np.load('Data_L.npy')</code> to <code>data_in_S,data_in_L = np.load('10000_Data_S.npy'),np.load('10000_Data_L.npy')</code>
+## Instructions for running the multiclass code:
+- The command <code>python3 multi_class_reduced.py X</code> runs the code described above, where X is a number from 0 to 4 that selects the classifier to be used (see the labels below). If no flag <code>X</code> is provided, the code will automatically select the Artificial Neural Network as the classifier.
+- If you wish to use the <code>10000_Data_S.npy</code> and <code>10000_Data_L.npy</code> files, you should change line #16 from <code>data_in_S, data_in_L = np.load('Data_S.npy'), np.load('Data_L.npy')</code> to <code>data_in_S, data_in_L = np.load('10000_Data_S.npy'), np.load('10000_Data_L.npy')</code>.
+
+## About the binary classification code:
+
+- The file <code>binary_class_reduced.py</code> available in this repository contains the code for reading the <code>.npy</code> files and classifying the ECG signals.
+- The code is divided into 6 steps:
+  1. Read <code>Data_S.npy</code> and <code>Data_L.npy</code>, which contain the features and labels of the dataset.
+  2. Select the groups of interest, such as the rhythms of intereset from the dataset, in which the user chooses which rhythm they want to compare with the SR rhythm (group 0); 
+  3. Shuffle the dataset to avoid any bias in the disposition of patients.
+  4. Define the classifier and its properties.
+  5. Generate the K-fold (with K=10) to select the training and test datasets for evaluating the classification.
+  6. The code prints the mean value of all K realizations on the screen.
+
+## Instructions for running the multiclass code:
+- The command <code>python3 binary_class.py G X</code> runs the code described above, where G is a number from 1 to 10, which selects the ECG rhythms to be compared with the SR, and X is a number from 0 to 4 that selects the classifier to be used (see the labels below). If no flag <code>X</code> is provided, the code will automatically select the Artificial Neural Network as the classifier.
+- If you wish to use the <code>10000_Data_S.npy</code> and <code>10000_Data_L.npy</code> files, you should change line #16 from <code>data_in_S, data_in_L = np.load('Data_S.npy'), np.load('Data_L.npy')</code> to <code>data_in_S, data_in_L = np.load('10000_Data_S.npy'), np.load('10000_Data_L.npy')</code>.
 
 ## About the classifiers:
 
 In this work, we tested 5 different classifiers, which are:
-- KNN: K-Nearest Neighbors (label 0);
-- DTree: Decision Tree (label 1);
-- RFM: Random Forest (label 2);
-- SVM: Support Vector Machine (label 3);
-- ANN: Artificial Neural Network (label 4);
+- KNN: K-Nearest Neighbors (label 0) using the function <code>KNeighborsClassifier(n_neighbors=10)</code>, where <code>10</code> represents the number of nearest neighbors to be analyzed.
+- DTree: Decision Tree (label 1) using the function <code>DecisionTreeClassifier()</code>.
+- RFM: Random Forest (label 2) using the function <code>RandomForestClassifier()</code>.
+- SVM: Support Vector Machine (label 3) using the function <code>svm.SVC(kernel='rbf')</code>, where <code>rbf</code> represents the Radial Basis Function (RBF) kernel of the <code>SVM</code>.
+- ANN: Artificial Neural Network (label 4) using the Keras framework to generate a feedforward network designed for classification tasks. It has an input layer with 24 nodes, two hidden layers with 64 nodes each and ReLU activation functions, a dropout layer with a dropout rate of 0.5, and an output layer with 4 nodes and a softmax activation function. The model is compiled using the RMSprop optimizer, categorical crossentropy loss function, and accuracy metric.
+
+
+  
 
 
 
