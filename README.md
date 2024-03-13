@@ -86,7 +86,7 @@ In case you don't want to wait, you can download <code>10000_Data_S.npy</code> a
   5. Generate the K-fold (with K=10) to select the training and test datasets for evaluating the classification.
   6. The code prints the mean value of all K realizations on the screen.
 
-## Instructions for running the multiclass code:
+## Instructions for running the binary code:
 - The command <code>python3 binary_class.py G X</code> runs the code described above, where G is a number from 1 to 10, which selects the ECG rhythms to be compared with the SR, and X is a number from 0 to 4 that selects the classifier to be used (see the labels below). If no flag <code>X</code> is provided, the code will automatically select the Artificial Neural Network as the classifier.
 - If you wish to use the <code>10000_Data_S.npy</code> and <code>10000_Data_L.npy</code> files, you should change line #16 from <code>data_in_S, data_in_L = np.load('Data_S.npy'), np.load('Data_L.npy')</code> to <code>data_in_S, data_in_L = np.load('10000_Data_S.npy'), np.load('10000_Data_L.npy')</code>.
 
