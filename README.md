@@ -79,7 +79,7 @@ In case you don't want to wait, you can download <code>10000_Data_S.npy</code> a
 ## About the binary classification code:
 
 - The file <code>binary_class.py</code> available in this repository contains the code for reading the <code>.npy</code> files and classifying the ECG signals.
-- The code works in a similar way to the multiclass case, but it was adapted to perform a binary classification;
+- The code works similarly to the multiclass case, but it was adapted to perform a binary classification;
 - The command <code>python3 binary_class.py G X</code> runs the code described above, where G is a number from 1 to 10, which selects the ECG rhythms to be compared with the SR, and X is a number from 0 to 4 that selects the classifier to be used (see the labels below). If no flag <code>X</code> is provided, the code will automatically select the Artificial Neural Network as the classifier.
 
 ## About the classifiers:
@@ -89,9 +89,7 @@ In this work, we tested 5 different classifiers, which are:
 - DTree: Decision Tree (label 1) using the function <code>DecisionTreeClassifier()</code>.
 - RFM: Random Forest (label 2) using the function <code>RandomForestClassifier()</code>.
 - SVM: Support Vector Machine (label 3) using the function <code>svm.SVC(kernel='rbf')</code>, where <code>rbf</code> represents the Radial Basis Function (RBF) kernel of the <code>SVM</code>.
-- ANN: Artificial Neural Network (label 4) using the Keras framework to generate a feedforward network designed for classification tasks. It has an input layer with 24 nodes, two hidden layers with 64 nodes each and ReLU activation functions, a dropout layer with a dropout rate of 0.5, and an output layer with 4 nodes and a softmax activation function. The model is compiled using the RMSprop optimizer, categorical crossentropy loss function, and accuracy metric.
-
-Certainly! Here's a suggestion for the "Final Remarks" section:
+- ANN: Artificial Neural Network (label 4) using the Keras framework to generate a feedforward network designed for classification tasks. It has an input layer with 24 nodes, two hidden layers with 64 nodes each and ReLU activation functions, a dropout layer with a dropout rate of 0.5, and an output layer. 
 
 ## Final Remarks
 
