@@ -46,7 +46,7 @@ Thank you for considering our work!
 
 ## Downloading the data:
 - Download the <code>ECGDataDenoised.zip</code> from https://figshare.com/collections/ChapmanECG/4560497/2;
--  Extract the <code>.zip</code> file to obtain the folder <code>ECGDataDenoised/</code>, which contains the entire dataset in <code>csv</code> format;
+- Extract the <code>.zip</code> file to obtain the folder <code>ECGDataDenoised/</code>, which contains the entire dataset in <code>csv</code> format;
 - Download <code>filename.dat</code> from this repository, which contains the list of filenames for each subject;
 - Download <code>diagnostics.dat</code> from this repository, which contains the list of ECG rhythms;
 - Download <code>block_list.dat</code> from this repository, which contains the list of corrupted signals that should be avoided.<br />
@@ -56,14 +56,14 @@ Thank you for considering our work!
 - The file <code>evaluate_entropy_ECG.py</code> available in this repository contains the code to read the dataset and evaluate the Maximum Entropy of Microstates for each subject;
 - The time required to calculate the maximum entropy of microstates depends on the number of microstates extracted from the series;
 - In general, entropy calculation is fast, but when considering a dataset with 10,000 subjects containing 12 series of 5,000 points per subject, it can take a relatively long time, requiring a few seconds per subject. Therefore, to address this issue, it is recommended to utilize parallel computing on CPU or GPU;
-- The code extracts 1,000 microstates from each time series, with N = 3 resulting in a total of Q = 512 different recurrence microstates. It generates two <code>.npy</code> files: <code>Data_S.npy</code>, containing 12 values of maximum entropy and the 12 values of optimized threshold for each subject, and <code>Data_L.npy</code>, containing the list of labels ranging from 0 (SR) to 10 (SAAWR), following the order of the table above.<br />
+- The code extracts 1,000 microstates from each time series, with N = 3 resulting in a total of Q = 512 different recurrence microstates. It generates two <code>.npy</code> files: <code>Data_S.npy</code>, containing 12 values of maximum entropy and the 12 values of the optimized threshold for each subject, and <code>Data_L.npy</code>, containing the list of labels ranging from 0 (SR) to 10 (SAAWR), following the order of the table above.<br />
 *Please note that when utilizing this step, it is important to cite the article <code>DOI:10.1063/1.5125921</code> for proper acknowledgment.*
 
-In case you don't want to wait, you can download <code>10000_Data_S.npy</code> and <code>10000_Data_L.npy</code> from this repository, which correspond to the output of the code considering 10,000 recurrence microstates extracted from each subject.
+In case you don't want to wait, you can download <code>10000_Data_S.npy</code> and <code>10000_Data_L.npy</code> from this repository, which corresponds to the output of the code considering 10,000 recurrence microstates extracted from each subject.
 
 ## About the multiclass code:
 
-- The file <code>multi_class_reduced.py</code> available in this repository contains the code for reading the <code>.npy</code> files and classifying the ECG signals from the reduced dataset.
+- The file <code>multi_class_reduced.py</code> available in this repository contains the code for reading the <code>.npy</code> files and classifies the ECG signals from the reduced dataset.
 - The code is divided into 6 steps:
   1. Read <code>Data_S.npy</code> and <code>Data_L.npy</code>, which contain the features and labels of the dataset;
   2. Select the groups of interest, such as the rhythms for the reduced dataset, which includes subjects with rhythms 0, 1, 2, and 3;
