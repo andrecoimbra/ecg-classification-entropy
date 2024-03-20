@@ -13,8 +13,7 @@ from sklearn.metrics import accuracy_score
 
 
 #Read Data_S.npy and Data_L.npy which contain the features and labels of the whole dataset;
-#data_in_S,data_in_L = np.load('Data_S.npy'),np.load('Data_L.npy') #
-data_in_S, data_in_L = np.load('10000_Data_S.npy'), np.load('10000_Data_L.npy')
+data_in_S,data_in_L = np.load('Data_S.npy'),np.load('Data_L.npy') #data_in_S, data_in_L = np.load('10000_Data_S.npy'), np.load('10000_Data_L.npy')
 
 #Select the groups of interess 
 X = []
