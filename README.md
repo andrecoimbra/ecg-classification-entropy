@@ -1,7 +1,6 @@
-# The use of entropy of recurrence microstates and artificial intelligence to detect cardiac arrhythmia in ECG records
+# ECG_Signal_Classification_entropy_of_recurrence_microstates
 
-This repository provides the code implemented in the use of entropy of recurrence microstates and artificial intelligence to detect cardiac
-arrhythmia in ECG records
+This repository provides the code implemented in the project entitled: "The use of entropy of recurrence microstates and artificial intelligence to detect cardiac arrhythmia in ECG records"
 
 Our study addresses the classification of cardiac arrhythmias, presenting a novel approach based on dynamical system techniques, specifically recurrence entropy of microstates and recurrence vicinity threshold, coupled with artificial intelligence. Leveraging a comprehensive 12-lead electrocardiogram open dataset with over 10,000 subjects and 11 distinct heart rhythms, our work stands out for its significant reduction in dataset dimensions (from 12x5000 to 12x2), enhancing the efficiency of machine learning algorithms for rapid and accurate analyses.
 
@@ -12,9 +11,17 @@ Based on only two quantifiers, microstate entropy and recurrence threshold, our 
 To ensure proper attribution, it would be greatly appreciated if you could kindly cite our paper <code>DOI:XXXXXX</code>.<br />
 Thank you for considering our work!
 
+## Repository Contents
+
+This repository contains: 
+
+- **Datasets:** Instructions to download the experimental ECG dataset utilized in the analysis;
+- **Codes:** Implementation of entropy of recurrence microstates and machine learning algorithms used in the paper. </br>
+In the end, the user will be able to reproduce most of the results of the manuscript.
+
 ## Dataset
 
-- The dataset is open and freely available for download at https://figshare.com/collections/ChapmanECG/4560497/2;
+- The dataset of ECG signals is open and freely available for download at https://figshare.com/collections/ChapmanECG/4560497/2;
 - The dataset comprises 12-lead electrocardiogram signals from 10,646 subjects, including 5,956 males and 4,690 females;
 - Among all patients, 17% exhibited normal sinus rhythm, while 83% displayed at least one abnormality;
 - Data for each subject were acquired through a 12-lead resting ECG test lasting 10 seconds, with a sampling rate of 500 Hz, resulting in 5,000 data points per lead per subject;
@@ -52,7 +59,7 @@ Thank you for considering our work!
 - Download <code>block_list.dat</code> from this repository, which contains the list of corrupted signals that should be avoided.<br />
 *Please note that when utilizing this step, it is important to cite the article <code>DOI:10.1038/s41597-020-0386-x</code> for proper acknowledgment.*
 
-## Evaluating the Maximum Entropy of Microstates
+## Evaluating the Maximum Entropy of Microstates (optional)
 - The file <code>evaluate_entropy_ECG.py</code> available in this repository contains the code to read the dataset and evaluate the Maximum Entropy of Microstates for each subject;
 - The time required to calculate the maximum entropy of microstates depends on the number of microstates extracted from the series;
 - In general, entropy calculation is fast, but when considering a dataset with 10,000 subjects containing 12 series of 5,000 points per subject, it can take a relatively long time, requiring a few seconds per subject. Therefore, to address this issue, it is recommended to utilize parallel computing on CPU or GPU;
@@ -93,14 +100,30 @@ In this work, we tested 5 different classifiers, which are:
 
 ## Final Remarks
 
-In conclusion, this repository offers a comprehensive implementation of entropy of recurrence microstates combined with artificial intelligence for cardiac arrhythmia detection in ECG records. The provided code facilitates experimentation and exploration in this vital area of medical research, aiming to contribute to the advancement of cardiac health diagnostics and treatment.
+In conclusion, this repository offers a comprehensive implementation of the entropy of recurrence microstates combined with artificial intelligence for cardiac arrhythmia detection in ECG records. The provided code facilitates experimentation and exploration in this vital area of medical research, aiming to contribute to the advancement of cardiac health diagnostics and treatment.
 
 We encourage collaboration and feedback from the scientific community to foster continued development and refinement of these techniques. Together, we can continue to push the boundaries of knowledge and technology to address the complex challenges in cardiovascular health and pave the way for more effective medical interventions.
 
 If you find this repository helpful, please consider citing our paper with <code>DOI: XXXXXX</code> to acknowledge our contributions.
 
+### Citation
 
+If you find this work helpful for your research, please consider reading and citing:
 
+- Boaretto, B. R. R., Andreani, A. Lopes, S. R., Prado, T. L., & Macau, E. E. N. (2024). "The use of entropy of recurrence microstates and artificial intelligence to detect cardiac
+arrhythmia in ECG records." Under Review.
+
+In addition, the whole methodology used in this work has been originated and improved in these two works: 
+- Corso, G., Prado, T. D. L., Lima, G. Z. D. S., Kurths, J., & Lopes, S. R. (2018). "Quantifying entropy using recurrence matrix microstates." *Chaos: An Interdisciplinary Journal of Nonlinear Science*, 28(8).
+- Prado, T. L., Corso, G., dos Santos Lima, G. Z., Budzinski, R. C., Boaretto, B. R., Ferrari, F. A. S., Macau, E. E. N., & Lopes, S. R. (2020). "Maximum entropy principle in recurrence plot analysis on stochastic and chaotic systems." *Chaos: An Interdisciplinary Journal of Nonlinear Science*, 30(4).
+- Prado, T. L., Boaretto, B. R. R., Corso, G., dos Santos Lima, G. Z., Kurths, J., & Lopes, S. R. (2022). "A direct method to detect deterministic and stochastic properties of data." *New Journal of Physics*, 24(3), 033027.
+--------------------------------------------------------------------------------------
+
+Thank you for your interest in our research! </br>
+We hope this repository serves as a valuable resource for the use of entropy of recurrence microstates in the classification of signals and data analysis in general.</br>
+
+Sincerely,</br>
+Bruno R. R. Boaretto.
 
   
 
