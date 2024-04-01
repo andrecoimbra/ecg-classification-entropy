@@ -1,6 +1,6 @@
   # ECG_Signal_Classification_entropy_of_recurrence_microstates
   
-This repository provides the code implemented in the project entitled: "The Use of Entropy of Recurrence Microstates and Artificial Intelligence to Detect Cardiac Arrhythmia in ECG Records."
+This repository provides the code implemented in the project entitled: "The Use of Entropy of Recurrence Microstates and Artificial Intelligence to Detect Cardiac Arrhythmia in ECG Records." published at 04-01-2024, in *Chaos 34, 043108 (2024)* (https://doi.org/10.1063/5.0193967).
 
 Our study addresses the classification of cardiac arrhythmias, presenting a novel approach based on dynamical system techniques, specifically the entropy of recurrence microstates and recurrence vicinity threshold, coupled with artificial intelligence. Leveraging a comprehensive 12-lead electrocardiogram open dataset with over 10,000 subjects and 11 distinct heart rhythms, our work stands out for its significant reduction in dataset dimensions (from 12x5000 to 12x2), enhancing the efficiency of machine learning algorithms for rapid and accurate analyses.
 
@@ -8,8 +8,9 @@ We introduce a unique application of recurrence-based tools, highlighting the au
 
 Based on only two quantifiers, microstate entropy and recurrence threshold, our results open avenues for future exploration. We emphasize the potential improvement by incorporating additional quantifiers, such as numerical values of recurrence microstate probabilities, to enhance the discernment of patterns by machine learning algorithms.
   
-<!--To ensure proper attribution, it would be greatly appreciated if you could kindly cite our paper <code>DOI:XXXXXX</code>.<br />
-  Thank you for considering our work!-->
+To ensure proper attribution, it would be greatly appreciated if you could kindly cite our paper <code>DOI: 10.1063/5.0193967</code>
+.<br />
+Thank you for considering our work!
 
 ## Repository Contents
 
@@ -108,12 +109,12 @@ We welcome collaboration and feedback from the scientific community to foster on
 
 If you find this work beneficial for your research, we kindly encourage you to consider reading and citing:
 
-- Boaretto, B. R. R., Andreani, A. Lopes, S. R., Prado, T. L., & Macau, E. E. N. (2024). "The use of entropy of recurrence microstates and artificial intelligence to detect cardiac arrhythmia in ECG records." Under Review.
+- Boaretto, B. R. R., Andreani, A. Lopes, S. R., Prado, T. L., & Macau, E. E. N. "The use of entropy of recurrence microstates and artificial intelligence to detect cardiac arrhythmia in ECG records." *Chaos: An Interdisciplinary Journal of Nonlinear Science*, 34, 043108 (2024).
 
 Additionally, the methodology utilized in this work has been developed and refined in the following publications:
-- Corso, G., Prado, T. D. L., Lima, G. Z. D. S., Kurths, J., & Lopes, S. R. (2018). "Quantifying entropy using recurrence matrix microstates." *Chaos: An Interdisciplinary Journal of Nonlinear Science*, 28(8).
-- Prado, T. L., Corso, G., dos Santos Lima, G. Z., Budzinski, R. C., Boaretto, B. R., Ferrari, F. A. S., Macau, E. E. N., & Lopes, S. R. (2020). "Maximum entropy principle in recurrence plot analysis on stochastic and chaotic systems." *Chaos: An Interdisciplinary Journal of Nonlinear Science*, 30(4).
-- Prado, T. L., Boaretto, B. R. R., Corso, G., dos Santos Lima, G. Z., Kurths, J., & Lopes, S. R. (2022). "A direct method to detect deterministic and stochastic properties of data." *New Journal of Physics*, 24(3), 033027.
+- Corso, G., Prado, T. D. L., Lima, G. Z. D. S., Kurths, J., & Lopes, S. R. "Quantifying entropy using recurrence matrix microstates." *Chaos: An Interdisciplinary Journal of Nonlinear Science*, 28, 8 (2018).
+- Prado, T. L., Corso, G., dos Santos Lima, G. Z., Budzinski, R. C., Boaretto, B. R., Ferrari, F. A. S., Macau, E. E. N., & Lopes, S. R. "Maximum entropy principle in recurrence plot analysis on stochastic and chaotic systems." *Chaos: An Interdisciplinary Journal of Nonlinear Science*, 30, 4 (2020).
+- Prado, T. L., Boaretto, B. R. R., Corso, G., dos Santos Lima, G. Z., Kurths, J., & Lopes, S. R. "A direct method to detect deterministic and stochastic properties of data." *New Journal of Physics*, 24(3), 033027 (2022).
 
 Thank you for your interest in our research! We hope this repository serves as a valuable resource for utilizing entropy of recurrence microstates in signal classification and data analysis.
 
