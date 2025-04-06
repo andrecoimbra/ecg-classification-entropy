@@ -1,0 +1,5 @@
+database/
+test/
+
+.DS_Store
+.venv/
