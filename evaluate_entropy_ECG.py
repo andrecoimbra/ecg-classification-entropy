@@ -2,21 +2,10 @@ import numpy as np
 import time
 from pathlib import Path
 from tqdm import tqdm
-
-start_time = time.time()
-
-with open("filename.dat", "r") as myfile:
-    fn = myfile.read().splitlines()
-
-with open("diagnostics.dat", "r") as myfile:
-    di = myfile.read().splitlines()
-
-with open("block_list.dat", "r") as myfile:
-    block_list = myfile.read().splitlines()
-
-samples = 5
+from concurrent.futures import ProcessPoolExecutor, as_completed
 
 
+# Função para cálculo da entropia
 def Max_Entropy(x_rand, y_rand, Serie, StatsBlock):
     Threshold = 0.0
     Frac = 10
@@ -24,26 +13,20 @@ def Max_Entropy(x_rand, y_rand, Serie, StatsBlock):
     Increase_Thr = 1.0 / Frac
     Max_Threshold = 0.0
     S_Max = 0
-    S = 0
-    StatsM = np.zeros((pow(2, StatsBlock * StatsBlock)))
-    pow_vec = np.zeros((StatsBlock * StatsBlock), np.int64)
-
-    for K in range(0, (StatsBlock * StatsBlock)):
-        pow_vec[K] = int(pow(2, K))
+    StatsM = np.zeros((2 ** (StatsBlock * StatsBlock)))
+    pow_vec = np.array([2**k for k in range(StatsBlock * StatsBlock)], dtype=np.int64)
 
     for i in range(0, Frac2):
-
         if i > 0:
-            Threshold = Max_Threshold - 1.0 * Increase_Thr
-            Increase_Thr = (2.0 * Increase_Thr) / (1.0 * Frac)
+            Threshold = Max_Threshold - Increase_Thr
+            Increase_Thr = (2.0 * Increase_Thr) / Frac
 
         for j in range(0, Frac):
-
-            Stats = np.zeros((pow(2, StatsBlock * StatsBlock)))
+            Stats = np.zeros_like(StatsM)
             for count in range(len(x_rand)):
                 Add = 0
-                for count_y in range(0, StatsBlock):
-                    for count_x in range(0, StatsBlock):
+                for count_y in range(StatsBlock):
+                    for count_x in range(StatsBlock):
                         a = int(
                             abs(
                                 Serie[(x_rand[count] + count_x)]
@@ -53,52 +36,52 @@ def Max_Entropy(x_rand, y_rand, Serie, StatsBlock):
                         )
                         Add += a * pow_vec[count_x + count_y * StatsBlock]
                 Stats[Add] += 1
+
             S = 0
             for Hist_S in Stats:
                 if Hist_S > 0:
-                    S -= (float(Hist_S) / (1.0 * samples)) * (
-                        np.log((float(Hist_S) / (1.0 * samples)))
-                    )
+                    S -= (Hist_S / samples) * np.log(Hist_S / samples)
 
             if S > S_Max:
                 S_Max = S
                 Max_Threshold = Threshold
-                StatsM = Stats
+                StatsM = Stats.copy()
 
-            Threshold = Threshold + Increase_Thr
+            Threshold += Increase_Thr
+
     return Max_Threshold, S_Max, StatsM
 
 
+# Parâmetros globais
 StatsBlock = 3
+samples = 5
 
-# Pré-cálculo do vetor de potências (fixo por StatsBlock)
-pow_vec = np.array([2**k for k in range(StatsBlock * StatsBlock)], dtype=np.int64)
+# Carregamento dos arquivos
+with open("filename.dat", "r") as myfile:
+    fn = myfile.read().splitlines()
+
+with open("diagnostics.dat", "r") as myfile:
+    di = myfile.read().splitlines()
+
+with open("block_list.dat", "r") as myfile:
+    block_list = myfile.read().splitlines()
 
 # Lista de classes e mapeamento nome → índice
 diag_list = np.array(
     ["SR", "SB", "AFIB", "ST", "SVT", "AF", "SI", "AT", "AVNRT", "AVRT", "SAAWR"]
 )
-# Mapeia os rótulos para índices uma única vez
 diag_map = {label: idx for idx, label in enumerate(diag_list)}
 
-diag_counts = np.zeros(len(diag_list), dtype=int)
 
-# Vetores finais
-X = []
-Y = []
-
-print("Computing microstate entropy...")
-for i, filename in enumerate(tqdm(fn, desc="Entropy calculation")):
+# Função paralelizável
+def process_file(i):
+    filename = fn[i]
     if filename in block_list:
-        continue
+        return None
 
     label_str = di[i]
     label_idx = diag_map[label_str]
 
-    # print(i, label_str, label_idx)
-    diag_counts[label_idx] += 1
-
-    # Carregar os dados diretamente com numpy (mais rápido)
     filepath = Path(f"database/ECGDataDenoised/{filename}.csv")
     data = np.loadtxt(filepath, delimiter=",")  # shape: (time, leads)
 
@@ -115,17 +98,45 @@ for i, filename in enumerate(tqdm(fn, desc="Entropy calculation")):
         Aux.append(S_max / (StatsBlock * StatsBlock * np.log(2)))
         Aux.append(Eps)
 
-    X.append(Aux)
-    Y.append(label_idx)
-
-X = np.array(X)
-Y = np.array(Y)
-
-print("\nRhythm distribution:")
-for label, count in zip(diag_list, diag_counts):
-    print(f"{label:7} → {count} amostras")
+    return Aux, label_idx
 
 
-np.save(f"{samples}_Data_S.npy", X)
-np.save(f"{samples}_Data_L.npy", Y)
-print(f"--- {(time.time() - start_time) / 60:.2f} minutes ---")
+# Execução paralela
+def main():
+    start_time = time.time()
+    diag_counts = np.zeros(len(diag_list), dtype=int)
+
+    X = [None] * len(fn)  # Reservar espaço
+    Y = [None] * len(fn)
+
+    print("Computing microstate entropy in parallel (ordered)...")
+    with ProcessPoolExecutor() as executor:
+        futures = {executor.submit(process_file, i): i for i in range(len(fn))}
+
+        for future in tqdm(
+            as_completed(futures), total=len(futures), desc="Entropy calculation"
+        ):
+            i = futures[future]
+            result = future.result()
+            if result is not None:
+                Aux, label_idx = result
+                X[i] = Aux
+                Y[i] = label_idx
+                diag_counts[label_idx] += 1
+
+    # Filtrar resultados válidos (excluindo blocos ignorados)
+    X = np.array([x for x in X if x is not None])
+    Y = np.array([y for y in Y if y is not None])
+
+    print("\nRhythm distribution:")
+    for label, count in zip(diag_list, diag_counts):
+        print(f"{label:7} → {count} amostras")
+
+    np.save(f"{samples}_Data_S.npy", X)
+    np.save(f"{samples}_Data_L.npy", Y)
+    print(f"--- {(time.time() - start_time) / 60:.2f} minutes ---")
+
+
+# Ponto de entrada
+if __name__ == "__main__":
+    main()
