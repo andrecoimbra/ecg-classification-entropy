@@ -1,5 +1,4 @@
 import numpy as np
-import time
 from pathlib import Path
 from tqdm import tqdm
 from concurrent.futures import ProcessPoolExecutor, as_completed
@@ -54,7 +53,7 @@ def Max_Entropy(x_rand, y_rand, Serie, StatsBlock):
 
 # Parâmetros globais
 StatsBlock = 3
-samples = 5
+samples = 10000
 
 # Carregamento dos arquivos
 with open("filename.dat", "r") as myfile:
@@ -103,7 +102,6 @@ def process_file(i):
 
 # Execução paralela
 def main():
-    start_time = time.time()
     diag_counts = np.zeros(len(diag_list), dtype=int)
 
     X = [None] * len(fn)  # Reservar espaço
@@ -134,7 +132,6 @@ def main():
 
     np.save(f"{samples}_Data_S.npy", X)
     np.save(f"{samples}_Data_L.npy", Y)
-    print(f"--- {(time.time() - start_time) / 60:.2f} minutes ---")
 
 
 # Ponto de entrada
