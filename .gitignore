@@ -3,3 +3,6 @@ test/
 
 .DS_Store
 .venv/
+
+*_Data_L.npy
+*_Data_S.npy
