@@ -1,7 +1,6 @@
 import numpy as np
 import sys
 
-from tensorflow.keras.utils import to_categorical
 from keras import models
 from keras import layers
 
@@ -16,7 +15,7 @@ from sklearn.metrics import accuracy_score
 # data_in_S,data_in_L = np.load('Data_S.npy'),np.load('Data_L.npy')
 data_in_S, data_in_L = np.load("10000_Data_S.npy"), np.load("10000_Data_L.npy")
 
-# Select the groups of interess
+# Select the groups of interest
 X = []
 Y = []
 if len(sys.argv) < 2 or int(sys.argv[1]) == 0:
