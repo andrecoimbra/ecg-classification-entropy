@@ -4,5 +4,7 @@ test/
 .DS_Store
 .venv/
 
-*_Data_L.npy
-*_Data_S.npy
+*Data_L*.npy
+*Data_S*.npy
+
+*.sh
