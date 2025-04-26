@@ -61,9 +61,10 @@ classifier_list = ["knn", "dtree", "rfm", "svm", "ANN"]
 # print(classifier_list[classifier])
 
 
-def build_ann():
+def build_ann(input_shape):
     model = models.Sequential()
-    model.add(layers.Dense(64, activation="relu", input_shape=(24,)))
+    model.add(layers.Input(shape=(input_shape,)))
+    model.add(layers.Dense(64, activation="relu"))
     model.add(layers.Dropout(0.5))
     model.add(layers.Dense(64, activation="relu"))
     model.add(layers.Dense(1, activation="sigmoid"))
@@ -116,7 +117,7 @@ for k in range(K):
     if classifier == 4:  # ANN
         # train_label = to_categorical(train_label)
         # test_label  = to_categorical(test_label)
-        model = build_ann()
+        model = build_ann(train_data.shape[1])
         model.fit(train_data, train_label, epochs=1000, batch_size=256, verbose=0)
         _, acc = model.evaluate(test_data, test_label, verbose=0)
 
