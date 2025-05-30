@@ -2,9 +2,11 @@ import numpy as np
 from pathlib import Path
 from tqdm import tqdm
 from concurrent.futures import ProcessPoolExecutor, as_completed
+import antropy as ant
+from scipy.stats import entropy as shannon_entropy
 
 
-# Função para cálculo da entropia
+# Function for calculating microstate entropy
 def Max_Entropy(x_rand, y_rand, Serie, StatsBlock):
     Threshold = 0.0
     Frac = 10
@@ -51,11 +53,11 @@ def Max_Entropy(x_rand, y_rand, Serie, StatsBlock):
     return Max_Threshold, S_Max, StatsM
 
 
-# Parâmetros globais
+# Global parameters
 StatsBlock = 3
 samples = 10000
 
-# Carregamento dos arquivos
+# File loading
 with open("filename.dat", "r") as myfile:
     fn = myfile.read().splitlines()
 
@@ -65,14 +67,14 @@ with open("diagnostics.dat", "r") as myfile:
 with open("block_list.dat", "r") as myfile:
     block_list = myfile.read().splitlines()
 
-# Lista de classes e mapeamento nome → índice
+# List of classes and name → index mapping
 diag_list = np.array(
     ["SR", "SB", "AFIB", "ST", "SVT", "AF", "SI", "AT", "AVNRT", "AVRT", "SAAWR"]
 )
 diag_map = {label: idx for idx, label in enumerate(diag_list)}
 
 
-# Função paralelizável
+# Parallelizable function with all entropy measures
 def process_file(i):
     filename = fn[i]
     if filename in block_list:
@@ -93,21 +95,31 @@ def process_file(i):
         x_rand = np.random.choice(Size - StatsBlock - 1, samples)
         y_rand = np.random.choice(Size - StatsBlock - 1, samples)
 
+        # Recurrence entropy
         Eps, S_max, Stats = Max_Entropy(x_rand, y_rand, Serie, StatsBlock)
-        Aux.append(S_max / (StatsBlock * StatsBlock * np.log(2)))
-        Aux.append(Eps)
+        rec_en = S_max / (StatsBlock * StatsBlock * np.log(2))
+
+        # Classic entropy measures
+        apen = ant.app_entropy(Serie)
+        sampen = ant.sample_entropy(Serie)
+        hist, _ = np.histogram(Serie, bins=20, density=True)
+        shannon = shannon_entropy(hist + 1e-12)
+        spec = ant.spectral_entropy(Serie, sf=500, normalize=True)  # method="welch",
+        svd = ant.svd_entropy(Serie, normalize=True)
+
+        # Append results
+        Aux.extend([rec_en, Eps, apen, sampen, shannon, spec, svd])
 
     return Aux, label_idx
 
 
-# Execução paralela
+# Parallel execution
 def main():
     diag_counts = np.zeros(len(diag_list), dtype=int)
-
-    X = [None] * len(fn)  # Reservar espaço
+    X = [None] * len(fn)
     Y = [None] * len(fn)
 
-    print("Computing microstate entropy in parallel (ordered)...")
+    print("Computing all entropy measures in parallel (ordered)...")
     with ProcessPoolExecutor() as executor:
         futures = {executor.submit(process_file, i): i for i in range(len(fn))}
 
@@ -122,18 +134,18 @@ def main():
                 Y[i] = label_idx
                 diag_counts[label_idx] += 1
 
-    # Filtrar resultados válidos (excluindo blocos ignorados)
+    # Filter valid results
     X = np.array([x for x in X if x is not None])
     Y = np.array([y for y in Y if y is not None])
 
     print("\nRhythm distribution:")
     for label, count in zip(diag_list, diag_counts):
-        print(f"{label:7} → {count} amostras")
+        print(f"{label:7} → {count} samples")
 
-    np.save(f"{samples}_Data_S.npy", X)
-    np.save(f"{samples}_Data_L.npy", Y)
+    np.save(f"Data_S_full.npy", X)
+    np.save(f"Data_L_full.npy", Y)
 
 
-# Ponto de entrada
+# Entry point
 if __name__ == "__main__":
     main()
