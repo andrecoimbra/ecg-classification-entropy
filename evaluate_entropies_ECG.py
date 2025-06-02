@@ -74,7 +74,6 @@ diag_list = np.array(
 diag_map = {label: idx for idx, label in enumerate(diag_list)}
 
 
-# Parallelizable function with all entropy measures
 def process_file(i):
     filename = fn[i]
     if filename in block_list:
@@ -86,9 +85,20 @@ def process_file(i):
     filepath = Path(f"database/ECGDataDenoised/{filename}.csv")
     data = np.loadtxt(filepath, delimiter=",")  # shape: (time, leads)
 
-    Aux = []
+    # Initialize separate lists for each entropy measure
+    rec_en_list = []
+    eps_list = []
+    apen_list = []
+    sampen_list = []
+    shannon_list = []
+    spec_list = []
+    svd_list = []
+
     for k in range(data.shape[1]):
         Serie = data[:, k].astype(np.float64)
+        if Serie.max() == Serie.min():
+            continue  # skip normalization to avoid division by zero
+
         Serie = (Serie - Serie.min()) / (Serie.max() - Serie.min())
 
         Size = len(Serie)
@@ -99,16 +109,33 @@ def process_file(i):
         Eps, S_max, Stats = Max_Entropy(x_rand, y_rand, Serie, StatsBlock)
         rec_en = S_max / (StatsBlock * StatsBlock * np.log(2))
 
-        # Classic entropy measures
+        # Other entropy measures
         apen = ant.app_entropy(Serie)
         sampen = ant.sample_entropy(Serie)
         hist, _ = np.histogram(Serie, bins=20, density=True)
         shannon = shannon_entropy(hist + 1e-12)
-        spec = ant.spectral_entropy(Serie, sf=500, normalize=True)  # method="welch",
+        spec = ant.spectral_entropy(Serie, sf=500, normalize=True)
         svd = ant.svd_entropy(Serie, normalize=True)
 
-        # Append results
-        Aux.extend([rec_en, Eps, apen, sampen, shannon, spec, svd])
+        # Append each measure to its corresponding list
+        rec_en_list.append(rec_en)
+        eps_list.append(Eps)
+        apen_list.append(apen)
+        sampen_list.append(sampen)
+        shannon_list.append(shannon)
+        spec_list.append(spec)
+        svd_list.append(svd)
+
+    # Concatenate all lists in the desired order
+    Aux = (
+        rec_en_list
+        + eps_list
+        + apen_list
+        + sampen_list
+        + shannon_list
+        + spec_list
+        + svd_list
+    )
 
     return Aux, label_idx
 
